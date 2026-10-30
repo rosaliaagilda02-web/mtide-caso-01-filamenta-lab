@@ -1,0 +1,52 @@
+
+version: 2
+
+models:
+  - name: dim_operario
+    columns:
+      - name: operario
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_impresora
+    columns:
+      - name: impresora
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_tipo_pieza
+    columns:
+      - name: tipo_pieza
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fact_trabajos
+    columns:
+      - name: pedido
+        data_tests:
+          - unique
+          - not_null
+
+      - name: operario
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_operario')
+                field: operario
+
+      - name: impresora
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_impresora')
+                field: impresora
+
+      - name: tipo_pieza
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_tipo_pieza')
+                field: tipo_pieza
