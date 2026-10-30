@@ -24,7 +24,16 @@ select
     case when s.minutos::integer between 1 and 2880 then s.minutos::integer
          else round(m.minutos_mediana)::integer end               as minutos,
     not (s.minutos::integer between 1 and 2880)                   as minutos_corregido,
-    s.gramos_filamento::double                                              as gramos_filamento,
+ -- La remesa del 11/04 contiene consumos de PRN-16 registrados
+-- en kg en lugar de gramos. Convertimos esos valores a gramos
+-- únicamente cuando el consumo original es anormalmente bajo.
+case
+    when s.impresora = 'PRN-16'
+         and s.fecha_carga = '2026-04-11'
+         and s.gramos_filamento::double / nullif(s.minutos::double, 0) < 0.001
+    then s.gramos_filamento::double * 1000
+    else s.gramos_filamento::double
+end as gramos_filamento,
     s.importe_eur::double                                      as importe_eur,
     s.incidencia,
     s.archivo,
