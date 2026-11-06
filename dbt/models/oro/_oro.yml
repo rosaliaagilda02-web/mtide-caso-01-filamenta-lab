@@ -1,52 +1,92 @@
-
 version: 2
-
 models:
-  - name: dim_operario
-    columns:
-      - name: operario
-        data_tests:
-          - unique
-          - not_null
-
-  - name: dim_impresora
-    columns:
-      - name: impresora
-        data_tests:
-          - unique
-          - not_null
-
-  - name: dim_tipo_pieza
-    columns:
-      - name: tipo_pieza
-        data_tests:
-          - unique
-          - not_null
-
-  - name: fact_trabajos
-    columns:
-      - name: pedido
-        data_tests:
-          - unique
-          - not_null
-
-      - name: operario
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('dim_operario')
-                field: operario
-
-      - name: impresora
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('dim_impresora')
-                field: impresora
-
-      - name: tipo_pieza
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('dim_tipo_pieza')
-                field: tipo_pieza
+- name: dim_operario
+  columns:
+  - name: operario
+    data_tests:
+    - unique
+    - not_null
+- name: dim_impresora
+  columns:
+  - name: impresora
+    data_tests:
+    - unique
+    - not_null
+- name: dim_tipo_pieza
+  columns:
+  - name: tipo_pieza
+    data_tests:
+    - unique
+    - not_null
+- name: fact_trabajos
+  columns:
+  - name: pedido
+    data_tests:
+    - unique
+    - not_null
+  - name: operario
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_operario')
+          field: operario
+  - name: impresora
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_impresora')
+          field: impresora
+  - name: tipo_pieza
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_tipo_pieza')
+          field: tipo_pieza
+- name: historia_terreno
+  columns:
+  - name: desde
+    data_tests:
+    - not_null
+- name: historia_incidencias
+  columns:
+  - name: incidencias_totales
+    data_tests:
+    - unique
+    - not_null
+- name: historia_temperatura
+  columns:
+  - name: minutos_totales
+    data_tests:
+    - not_null
+- name: historia_dia
+  columns:
+  - name: fecha
+    data_tests:
+    - unique
+    - not_null
+- name: historia_incidencias_semana
+  columns:
+  - name: id_semana_impresora
+    data_tests:
+    - unique
+    - not_null
+  - name: semana
+    data_tests:
+    - not_null
+  - name: impresora
+    data_tests:
+    - not_null
+- name: historia_contraste
+  columns:
+  - name: id_impresora
+    data_tests:
+    - unique
+    - not_null
+  - name: impresora_sucia
+    data_tests:
+    - unique
+    - not_null
+  - name: impresora_limpia
+    data_tests:
+    - unique
+    - not_null
